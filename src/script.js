@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
   const bookingForm = document.getElementById('bookingForm');
   const successModal = document.getElementById('successModal');
 
+  // Check if elements exist
+  if (!bookingForm) {
+    console.error('Booking form not found!');
+    return;
+  }
+  if (!successModal) {
+    console.error('Success modal not found!');
+    return;
+  }
+
   hamburger.addEventListener('click', function() {
     hamburger.classList.toggle('active');
     navMenu.classList.toggle('active');
@@ -71,11 +81,28 @@ document.addEventListener('DOMContentLoaded', function() {
   bookingForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const mobile = document.getElementById('mobile').value;
-    const fromDate = document.getElementById('fromDate').value;
-    const fromplace = document.getElementById('fromplace').value;
-    const toplace = document.getElementById('toplace').value;
+    // Get form values
+    const name = document.getElementById('name')?.value || '';
+    const mobile = document.getElementById('mobile')?.value || '';
+    const fromDate = document.getElementById('fromDate')?.value || '';
+    const fromplace = document.getElementById('fromplace')?.value || '';
+    const toplace = document.getElementById('toplace')?.value || '';
+
+    // Validation
+    if (!name.trim()) {
+      alert('Please enter your name');
+      return;
+    }
+
+    if (!mobile.trim()) {
+      alert('Please enter your mobile number');
+      return;
+    }
+
+    if (!fromDate) {
+      alert('Please select a date');
+      return;
+    }
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -96,8 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Show success message immediately
+    // Show success modal with animation
     successModal.classList.add('show');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
 
     // Format the booking message with all details
     const formattedMessage = `🚗 *New Car Booking Request*
@@ -113,17 +141,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 Thank you!`;
 
-    // Reset form immediately
+    // Reset form
     bookingForm.reset();
 
-    // Open WhatsApp with booking details after a short delay
+    // Open WhatsApp with booking details after animation delay
     setTimeout(() => {
       const encodedMessage = encodeURIComponent(formattedMessage);
       const whatsappURL = `https://wa.me/919791861149?text=${encodedMessage}`;
       
       // Automatically open WhatsApp with pre-filled message
       window.open(whatsappURL, '_blank');
-    }, 1500);
+    }, 1000);
   });
 
   const today = new Date().toISOString().split('T')[0];
@@ -135,7 +163,10 @@ Thank you!`;
 
 function closeModal() {
   const modal = document.getElementById('successModal');
-  modal.classList.remove('show');
+  if (modal) {
+    modal.classList.remove('show');
+    document.body.style.overflow = ''; // Restore scrolling
+  }
 }
 
 window.onclick = function(event) {

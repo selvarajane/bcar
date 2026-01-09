@@ -636,13 +636,16 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
-  animation: fadeIn 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .modal.show {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
+  animation: fadeIn 0.3s ease;
 }
 
 .modal-content {
