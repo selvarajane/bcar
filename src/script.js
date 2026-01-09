@@ -166,6 +166,20 @@ function closeModal() {
   if (modal) {
     modal.classList.remove('show');
     document.body.style.overflow = ''; // Restore scrolling
+    
+    // Automatically scroll to home section
+    setTimeout(() => {
+      const homeSection = document.getElementById('home');
+      if (homeSection) {
+        homeSection.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      } else {
+        // Fallback: scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 300); // Small delay for modal close animation
   }
 }
 
