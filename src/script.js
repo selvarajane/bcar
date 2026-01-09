@@ -241,7 +241,9 @@ function loadGalleryImages() {
       galleryItem.style.transform = 'translateY(30px)';
       
       const imgElement = document.createElement('img');
-      imgElement.src = `/image/${imageFile.name}`;
+      // Use proper path for images - Vite serves public folder at root
+      const encodedImageName = encodeURIComponent(imageFile.name);
+      imgElement.src = `/image/${encodedImageName}`;
       imgElement.alt = imageFile.title;
       imgElement.loading = 'lazy';
       
@@ -269,6 +271,8 @@ function loadGalleryImages() {
       // Image doesn't exist, skip it
       console.log(`Image not found: ${imageFile.name}`);
     };
-    img.src = `/image/${imageFile.name}`;
+    // Vite serves public folder at root, so /image/ works
+    const encodedName = encodeURIComponent(imageFile.name);
+    img.src = `/image/${encodedName}`;
   });
 }
