@@ -96,11 +96,11 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
+    // Show success message immediately
     successModal.classList.add('show');
 
-    setTimeout(() => {
-      // Format the booking message with all details
-      const formattedMessage = `🚗 *New Car Booking Request*
+    // Format the booking message with all details
+    const formattedMessage = `🚗 *New Car Booking Request*
 
 *Customer Details:*
 👤 Name: ${name}
@@ -113,13 +113,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 Thank you!`;
 
+    // Reset form immediately
+    bookingForm.reset();
+
+    // Open WhatsApp with booking details after a short delay
+    setTimeout(() => {
       const encodedMessage = encodeURIComponent(formattedMessage);
       const whatsappURL = `https://wa.me/919791861149?text=${encodedMessage}`;
-
+      
+      // Automatically open WhatsApp with pre-filled message
       window.open(whatsappURL, '_blank');
     }, 1500);
-
-    bookingForm.reset();
   });
 
   const today = new Date().toISOString().split('T')[0];
